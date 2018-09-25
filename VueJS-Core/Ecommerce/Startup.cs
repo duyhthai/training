@@ -37,6 +37,9 @@ namespace Ecommerce
 
             // MVC
             services.AddMvc();
+
+            // For seeding the DB
+            DbContextExtensions.UserManager = services.BuildServiceProvider().GetService<UserManager<AppUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
