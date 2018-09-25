@@ -3,7 +3,15 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+// import page components
+import Catalogue from "./pages/Catalogue.vue";
+import Product from "./pages/Product.vue";
+
+// Routes
 const routes = [
+  { path: "/products", component: Catalogue },
+  { path: "/products/:slug", component: Product },
+  { path: "*", redirect: "/products" }
 ];
 
 new Vue({
