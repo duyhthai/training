@@ -2,9 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerce.Data;
+using ECommerce.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +26,16 @@ namespace Ecommerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Data context with SQL Server
+            services.AddDbContext<EcommerceContext>(options =>                          
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // ASP.NET Core Identity
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<EcommerceContext>()
+                .AddDefaultTokenProviders();
+
+            // MVC
             services.AddMvc();
         }
 
