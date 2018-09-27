@@ -1,37 +1,28 @@
 <template>
-    <div>
-        <h2>Catalogue</h2>
-        <ul v-for="product in products" :key="product.slug">
-            <li @click="view(product)">{{ product.name }}</li>
-        </ul>
-    </div>
+<product-list :products="products" />
 </template>
 
 <script>
+import ProductList from "../components/catalogue/ProductList.vue";
+
 export default {
   name: "catalogue",
+  components: {
+    ProductList
+  },
   data() {
     return {
-        products: [
-          {
-              name: "Samsung Galaxy S8",
-              slug: "samsung-galaxy-s8"              
-          },
-          {
-              name: "Apple iPhone X",
-              slug: "apple-iphone-x"              
-          },
-          {
-              name: "Apple iPhone 5",
-              slug: "apple-iphone-5"              
-          }
-        ]
-    }
+        products: []
+    };
   },
-  methods: {
-    view(product) {
-      this.$router.push(`/products/${product.slug}`);
+  mounted() {
+    fetch("/api/products")
+        .then(response => {
+            return response.json();
+        })
+        .then(products => {
+            this.products = products;
+        });
     }
-  }
 };
 </script>
