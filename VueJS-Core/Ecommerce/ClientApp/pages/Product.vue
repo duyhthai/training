@@ -1,5 +1,7 @@
 <template>
-  <product-details :product="product" />
+<div class="page">
+    <product-details :product="product" />
+</div>
 </template>
 
 <script>
@@ -12,19 +14,22 @@ export default {
   },
   data() {
     return {
-      product: null
+      product: {}
     };
   },
-  mounted() {
-    const slug = this.$route.params.slug;
-
-    fetch(`/api/products/${slug}`)
+  methods: {
+    setData(product) {
+        this.product = product;
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    fetch(`/api/products/${to.params.slug}`)
         .then(response => {
             return response.json();
         })
         .then(product => {
-            this.product = product;
+            next(vm => vm.setData(product));
         });
-    }
+  }
 };
 </script>
